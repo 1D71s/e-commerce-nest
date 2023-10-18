@@ -9,8 +9,20 @@ export class UsersService {
     constructor(private prisma: PrismaService ) {}
 
     async create(dto: CreateUserDto) {
+
         return this.prisma.user.create({
             data: dto
         })
+        
     }
+
+    async getUserByEmail(email: string) {
+        
+        return this.prisma.user.findUnique({
+            where: {
+                email: email 
+            }
+        });
+    }
+    
 }
