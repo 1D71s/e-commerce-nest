@@ -17,12 +17,13 @@ export class UsersService {
     }
 
     async getUserByEmail(email: string) {
-        
-        return this.prisma.user.findUnique({
+        const user = await this.prisma.user.findUnique({
             where: {
                 email: email 
             }
         });
+    
+        return user;
     }
     
 }

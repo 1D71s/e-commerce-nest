@@ -14,7 +14,7 @@ export class UsersController {
   @Post('/getuser')
   async getUserByEmail(@Body('email') email: string) {
     const user = await this.usersService.getUserByEmail(email);
-    
+
     if (user) return user;
     
     else return { message: 'Пользователь не найден' };
