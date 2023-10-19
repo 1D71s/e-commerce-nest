@@ -1,6 +1,7 @@
 import { Controller, Post, Body, Patch, Delete, Param, Get } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product-dto';
+import { UpdateProductDto } from './dto/update-product-dto';
 
 
 @Controller('products')
@@ -18,14 +19,19 @@ export class ProductsController {
         return this.productsService.getById(id)
     }
 
-    @Patch('/status/:id')
-    changeStatus(@Param('id') id: number) {
-        return this.productsService.changeStatus(id)
+    @Get()
+    getProducts() {
+        return this.productsService.getProducts()
     }
     
     @Delete('/:id')
     deleteProduct(@Param('id') id: number) {
         return this.productsService.deleteProduct(id)
+    }
+
+    @Patch('/update/:id')
+    updateProduct(@Param('id') id: number, @Body() dto: UpdateProductDto) {
+        return this.productsService.updateProduct(id, dto)
     }
 
 }

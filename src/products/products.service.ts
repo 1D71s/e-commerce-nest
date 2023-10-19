@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma';
 import { CreateProductDto } from './dto/create-product-dto';
+import { UpdateProductDto } from './dto/update-product-dto';
+
 
 @Injectable()
 export class ProductsService {
@@ -17,7 +19,7 @@ export class ProductsService {
             console.error("Ошибка при создании продукта:", error);
             throw error;
         }
-      }
+    }
       
 
     async getById(id: number) {
@@ -29,6 +31,12 @@ export class ProductsService {
         })
 
         if (product) return product
+    }
+
+    async getProducts() {
+        const products = await this.prisma.product.findMany()
+
+        if (products) return products
     }
 
     async deleteProduct(id: number) {
@@ -45,7 +53,22 @@ export class ProductsService {
         }
     }
 
-    async changeStatus(id: number) {
-        const product = await this.getById(id)
+    async updateProduct(id: number, dto: UpdateProductDto) {
+        try {
+            const product = await this.prisma.product.update({
+                where: {
+                    id: +id
+                },
+                data: dto
+            });
+    
+            if (product) {
+                return { message: 'Product updated successfully', data: product };
+            } else {
+                return { message: 'Product not found' };
+            }
+        } catch (error) {
+            return { message: 'An error occurred', error: error.message };
+        }
     }
 }
