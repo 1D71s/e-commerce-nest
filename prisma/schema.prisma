@@ -13,7 +13,9 @@ model User {
   email    String @unique
   password String
   role     String @default("USER")
+  cartItems CartItem[] @relation("UserCartItems")
 }
+
 
 model Product {
   id          Int     @id @default(autoincrement())
@@ -21,4 +23,14 @@ model Product {
   description String
   price       Int
   status      Boolean @default(false)
+  cartItems   CartItem[] @relation("ProductCartItems")
+}
+
+model CartItem {
+  id        Int      @id @default(autoincrement())
+  quantity  Int
+  userId    Int
+  productId Int
+  User      User     @relation("UserCartItems", fields: [userId], references: [id])
+  Product   Product  @relation("ProductCartItems", fields: [productId], references: [id])
 }

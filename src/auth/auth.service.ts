@@ -9,7 +9,7 @@ import { JwtService } from '@nestjs/jwt';
 export class AuthService {
     constructor(
         private readonly userService: UsersService,
-        private readonly jwtService: JwtService, // Добавьте JwtService в конструктор
+        private readonly jwtService: JwtService,
     ) {}
     
     async login(dto: LoginUserDto) {
@@ -25,13 +25,14 @@ export class AuthService {
         }
 
         const hashPassword = await bcrypt.hash(dto.password, 5);
+        
         const user = await this.userService.create({ ...dto, password: hashPassword });
 
         return this.generateToken(user);
     }
 
     private generateToken(user: any) {
-        const payload = { email: user.email, role: user.role };
+        const payload = { id: user.id };
         return {
             token: this.jwtService.sign(payload),
         };
@@ -39,6 +40,7 @@ export class AuthService {
 
     private async validateUser(dto: LoginUserDto) {
         const user = await this.userService.getUserByEmail(dto.email);
+        
         const passwordEquals = await bcrypt.compare(dto.password, user.password);
 
         if (user && passwordEquals) {
