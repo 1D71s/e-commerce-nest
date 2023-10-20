@@ -17,6 +17,7 @@ export class UsersService {
     }
 
     async getUserByEmail(email: string) {
+        
         const user = await this.prisma.user.findUnique({
             where: {
                 email: email 
