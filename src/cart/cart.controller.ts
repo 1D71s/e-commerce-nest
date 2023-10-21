@@ -19,14 +19,14 @@ export class CartController {
 
     @Patch('/update')
     @UseGuards(JwtAuthGuard)
-    updateCart(@Body() dto: UpdateCartDto) {
-        return this.cartService.updateCart(dto)
+    updateCart(@User() user, @Body() dto: UpdateCartDto) {
+        return this.cartService.updateCart(user.id, dto)
     }
 
     @Delete('/:id')
     @UseGuards(JwtAuthGuard)
-    removeFromCart(@Param('id') id: number) {
-        return this.cartService.removeFromCart(id)
+    removeFromCart(@User() user, @Param('id') id: number) {
+        return this.cartService.removeFromCart(user.id, id)
     }
 
 }

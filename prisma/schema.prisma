@@ -8,29 +8,40 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  name     String
-  email    String @unique
-  password String
-  role     String @default("USER")
+  id        Int        @id @default(autoincrement())
+  name      String
+  email     String     @unique
+  password  String
+  role      String     @default("USER")
   cartItems CartItem[] @relation("UserCartItems")
+  orders    Order[]    @relation("UserOrders")
 }
 
-
 model Product {
-  id          Int     @id @default(autoincrement())
+  id          Int        @id @default(autoincrement())
   name        String
   description String
   price       Int
-  status      Boolean @default(false)
+  status      Boolean    @default(false)
   cartItems   CartItem[] @relation("ProductCartItems")
+  orders      Order[]    @relation("ProductOrders")
 }
 
 model CartItem {
-  id        Int      @id @default(autoincrement())
+  id        Int     @id @default(autoincrement())
   quantity  Int
   userId    Int
   productId Int
-  User      User     @relation("UserCartItems", fields: [userId], references: [id])
-  Product   Product  @relation("ProductCartItems", fields: [productId], references: [id])
+  User      User    @relation("UserCartItems", fields: [userId], references: [id])
+  Product   Product @relation("ProductCartItems", fields: [productId], references: [id])
+}
+
+model Order {
+  id              Int       @id @default(autoincrement())
+  userId          Int
+  deliveryAddress String
+  totalCost       Decimal
+  status          String
+  user            User      @relation("UserOrders", fields: [userId], references: [id])
+  products        Product[] @relation("ProductOrders")
 }
