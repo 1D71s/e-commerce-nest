@@ -14,6 +14,9 @@ import { PrismaService } from 'src/prisma';
         expiresIn: '24h'
       }
     })
+  ],
+  exports: [
+    CartService
   ]
 })
 export class CartModule {}

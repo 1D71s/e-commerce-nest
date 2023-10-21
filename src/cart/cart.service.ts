@@ -8,6 +8,16 @@ export class CartService {
 
     constructor (private prisma: PrismaService) {}
 
+    public async findUsersCart(user: number) {
+
+        const cartsUser = await this.prisma.cartItem.findMany({
+            where: {
+                userId: user
+            }
+        })
+
+        return cartsUser
+    }
     
     async addToCart(user: number, dto: AddToCartDto) {
 

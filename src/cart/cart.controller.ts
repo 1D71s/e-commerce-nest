@@ -9,7 +9,11 @@ import { User } from 'src/users/user-decorate';
 @Controller('cart')
 export class CartController {
 
-    constructor(private readonly cartService: CartService) {}
+    constructor(private readonly cartService: CartService) { }
+    
+    findUsersCart(user: number) {
+        return this.cartService.findUsersCart(user)
+    }
   
     @Post('/add')
     @UseGuards(JwtAuthGuard)

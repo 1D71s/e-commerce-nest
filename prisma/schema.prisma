@@ -40,8 +40,9 @@ model Order {
   id              Int       @id @default(autoincrement())
   userId          Int
   deliveryAddress String
-  totalCost       Decimal
+  totalCost       Int
   status          String
+  cartlist        Int[]
   user            User      @relation("UserOrders", fields: [userId], references: [id])
   products        Product[] @relation("ProductOrders")
 }
