@@ -44,14 +44,21 @@ export class OrderService {
                     userId
                 }
             })
-            
+
         } catch (error) {
             return {message: 'something went wrong!'}
         }
     }
 
-    public async updateOrderStatus(orderId: number, status: string) {
+    async updateOrderStatus(orderId: number, status: string) {
 
+        return this.prisma.order.update({
+            where: {
+                id: +orderId
+            },
+            data: {
+                status: status
+            }
+        })
     }
-
 }
