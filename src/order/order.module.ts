@@ -18,6 +18,9 @@ import { ProductsModule } from 'src/products/products.module';
         expiresIn: '24h'
       }
     })
+  ],
+  exports: [
+    OrderService
   ]
 })
 export class OrderModule {}

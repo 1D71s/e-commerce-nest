@@ -17,13 +17,13 @@ export class OrderController {
     }
 
     @Get()
-    getUserOrders(userId: number) {
-        return this.orderService.getUserOrders(userId)
+    @UseGuards(JwtAuthGuard)
+    getUserOrders(@User() user) {
+        return this.orderService.getUserOrders(user.id)
     }
 
     @Patch('/update/:id')
     updateOrderStatus(@Param('id') id: number ,@Body() dto: UpdateOrderDto) {
         return this.orderService.updateOrderStatus(id, dto.status)
     }
-
 }
