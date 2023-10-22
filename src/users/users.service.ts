@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma';
 import { CreateUserDto } from './dto/create-user-dto';
 
@@ -18,13 +18,18 @@ export class UsersService {
 
     async getUserByEmail(email: string) {
         
-        const user = await this.prisma.user.findUnique({
+        return this.prisma.user.findUnique({
             where: {
                 email: email 
             }
         });
-    
-        return user;
     }
-    
+
+    async findUserById(id: number) {
+        return this.prisma.user.findFirst({
+            where: {
+                id: +id
+            }
+        });
+    }
 }
