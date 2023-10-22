@@ -39,6 +39,15 @@ export class CartService {
             })
         } 
 
+        const product = await this.prisma.product.findFirst({
+            where: {
+                id: +dto.productId,
+            }
+        })
+
+        if (!product) {
+            return { message: 'Product is not found!' }
+        }
 
         return await this.prisma.cartItem.create({
             data: {

@@ -63,6 +63,6 @@ export class OrderService {
     }
 
     public getOrders() {
-        return this.prisma.order.findMany()
+        return this.prisma.order.findMany({include: {user: true}})
     }
 }
