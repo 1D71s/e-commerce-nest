@@ -4,6 +4,7 @@ import { LoginUserDto } from 'src/users/dto/login-dto';
 import { UsersService } from 'src/users/users.service';
 import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt'; 
+import { Response } from 'express';
 
 
 @Injectable()
@@ -14,9 +15,14 @@ export class AuthService {
         private readonly jwtService: JwtService,
     ) {}
     
-    async login(dto: LoginUserDto) {
+    async login(dto: LoginUserDto, res: Response) {
+        
         const user = await this.validateUser(dto);
-        return this.generateToken(user);
+        const token = await this.generateToken(user);
+
+        res.cookie('token', token)
+
+        return token
     }
 
     async register(dto: CreateUserDto) {
